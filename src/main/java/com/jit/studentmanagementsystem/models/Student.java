@@ -3,6 +3,7 @@ package com.jit.studentmanagementsystem.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,13 +27,12 @@ public class Student {
     private Long id;
 
     private String firstName;
-
     private String lastName;
-
-    private char sex;
-
+    private String sex;
     private LocalDate dateOfBirth;
 
+    @Type(type = "org.hibernate.type.BinaryType")
+    private byte[] photo;
 
     @ManyToMany
     @JoinTable(

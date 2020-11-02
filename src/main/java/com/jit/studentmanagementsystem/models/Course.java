@@ -1,9 +1,11 @@
 package com.jit.studentmanagementsystem.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.BeanUtils;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,20 +22,21 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "courses")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-
     private Integer creditUnit;
 
     @ManyToMany(mappedBy = "courses")
     private List<Student> students;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "teacherid")
     private Teacher teacher;
+
+
 }
