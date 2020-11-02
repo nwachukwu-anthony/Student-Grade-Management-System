@@ -26,27 +26,27 @@ public class CourseController {
     @GetMapping
     @ResponseBody
     public List<CourseDTO> getAllCourse() {
-        return courseService.getAllCourse();
+        return courseService.getAllCourseService();
     }
 
     @GetMapping
     @RequestMapping("{id}")
     public CourseDTO get(@PathVariable Long id) {
-        return courseService.getOneCourse(id);
+        return courseService.getOneCourseService(id);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public ResponseEntity delete(@PathVariable Long id) {
-        return courseService.delete(id);
+        return courseService.deleteService(id);
     }
 
     @PostMapping
     public ResponseEntity create(@RequestBody final Course course) {
-        return courseService.create(course);
+        return courseService.createService(course);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     public ResponseEntity update(@PathVariable Long id, @RequestBody Course course) {
-        return courseService.update(id, course);
+        return courseService.updateService(id, course);
     }
 }

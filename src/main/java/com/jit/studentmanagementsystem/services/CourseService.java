@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.lang.reflect.Field;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -26,10 +29,8 @@ public class CourseService {
     private CourseRepository courseRepository;
     @Autowired
     private AssignCourseToStudentRepository assignCourseToStudentRepository;
-    @Autowired
-    private TeacherRepository teacherRepository;
 
-    public List<CourseDTO> getAllCourse() {
+    public List<CourseDTO> getAllCourseService() {
         return courseRepository
                 .findAll()
                 .stream()
@@ -37,17 +38,17 @@ public class CourseService {
                 .collect(Collectors.toList());
     }
 
-    public CourseDTO getOneCourse(Long id) {
+    public CourseDTO getOneCourseService(Long id) {
         return courseToCourseDTO(courseRepository
                 .getOne(id));
     }
 
-    public ResponseEntity delete(Long id) {
+    public ResponseEntity deleteService(Long id) {
         Optional<Course> existingCourse = courseRepository.findById(id);
         boolean existingStudentCourse = assignCourseToStudentRepository
                 .findAll()
                 .stream()
-                .map(AssignCourseToStudent::getStudentid)
+                .map(AssignCourseToStudent::getCourseid)
                 .collect(Collectors.toSet())
                 .contains(id);
 
@@ -58,7 +59,7 @@ public class CourseService {
         return ResponseEntity.badRequest().body("Course Assigned to a student or Course doesn't exist");
     }
 
-    public ResponseEntity create(final Course course) {
+    public ResponseEntity createService(final Course course) {
         Optional<Course> existingCourse = courseRepository.findById(course.getId());
         if (existingCourse.isPresent()) {
             return ResponseEntity.badRequest().body("Course with id=" + course.getId() + " exists");
@@ -66,7 +67,7 @@ public class CourseService {
         return ResponseEntity.ok(courseRepository.saveAndFlush(course));
     }
 
-    public ResponseEntity update(Long id, Course course) {
+    public ResponseEntity updateService(Long id, Course course) {
         Optional<Course> existingCourse = courseRepository.findById(id);
         if (existingCourse.isPresent()) {
             BeanUtils.copyProperties(course, existingCourse, "id");
@@ -89,8 +90,7 @@ public class CourseService {
                 "id", teacher.getId().toString(),
                 "surName", teacher.getLastName() != null ? teacher.getLastName() : "noData",
                 "firstName ", teacher.getFirstName() != null ? teacher.getFirstName() : "noData",
-                "sex", teacher.getSex() != null ? teacher.getSex() : "noData",
-                "birthDate", teacher.getDateOfBirth() != null ? teacher.getDateOfBirth().toString() : "noData"));
+                "sex", teacher.getSex() != null ? teacher.getSex() : "noData"));
 
         List<Map<String, String>> student = course.getStudents() != null
                 ? course.getStudents().stream()
@@ -99,7 +99,7 @@ public class CourseService {
                         "firstName", x.getFirstName() != null ? x.getFirstName() : "noData",
                         "lastName", x.getLastName() != null ? x.getLastName() : "noData",
                         "sex", x.getSex() != null ? x.getSex() : "noData",
-                        "DateOfBirth", x.getDateOfBirth() != null ? x.getDateOfBirth().toString() : "noData"))
+                        "Age", x.getDateOfBirth() != null ? Integer.toString(x.getDateOfBirth().until(LocalDate.now()).getYears()) : "noData"))
                 .collect(Collectors.toList())
                 : courseDTO.getEnrolledStudents();
         courseDTO.setEnrolledStudents(student);
