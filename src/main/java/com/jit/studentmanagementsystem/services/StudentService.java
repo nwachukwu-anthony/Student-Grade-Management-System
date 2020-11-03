@@ -76,19 +76,19 @@ public class StudentService {
         studentDTO.setLastName(student.getLastName() != null ? student.getLastName() : "noData");
         studentDTO.setSex(student.getSex() != null ? student.getSex() : "noDate");
         studentDTO.setAge(student.getDateOfBirth() != null ? student.getDateOfBirth().until(LocalDate.now()).getYears() : -1);
-        studentDTO.setPhoto(student.getPhoto());
+//        studentDTO.setPhoto(student.getPhoto());
 
-        List<Map<String, String>> course = student.getCourses() != null
-                ? student.getCourses().stream()
-                .map(x -> Map.of(
-                        "id", x.getId().toString(),
-                        "name", x.getName() != null ? x.getName() : "noData",
-                        "creditUnit", x.getCreditUnit() != null ? x.getCreditUnit().toString() : "noData",
-                        "assignedTeacher", x.getTeacher() != null ? x.getTeacher().getId().toString() : "noData"
-                ))
-                .collect(Collectors.toList())
-                : studentDTO.getCourses();
-        studentDTO.setCourses(course);
+//        List<Map<String, String>> course = student.getCourses() != null
+//                ? student.getCourses().stream()
+//                .map(x -> Map.of(
+//                        "id", x.getId().toString(),
+//                        "name", x.getName() != null ? x.getName() : "noData",
+//                        "creditUnit", x.getCreditUnit() != null ? x.getCreditUnit().toString() : "noData",
+//                        "assignedTeacher", x.getTeacher() != null ? x.getTeacher().getId().toString() : "noData"
+//                ))
+//                .collect(Collectors.toList())
+//                : studentDTO.getCourses();
+//        studentDTO.setCourses(course);
 
         return studentDTO;
     }

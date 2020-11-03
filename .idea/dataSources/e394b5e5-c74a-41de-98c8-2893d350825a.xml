@@ -1414,10 +1414,9 @@ false posixrules
       <ObjectId>13395</ObjectId>
       <Comment>default administrative connection database</Comment>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>825</IntrospectionStateNumber>
+      <IntrospectionStateNumber>897</IntrospectionStateNumber>
       <Current>1</Current>
-      <Relations>sequence|table|16532|16534|1
-sequence|table|16543|16545|1
+      <Relations>sequence|table|16543|16545|1
 sequence|table|16594|16529|5
 </Relations>
     </database>
@@ -1470,7 +1469,7 @@ sequence|table|16594|16529|5
       <Comment>standard public schema</Comment>
       <StateNumber>287</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>826</IntrospectionStateNumber>
+      <IntrospectionStateNumber>898</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <access-method id="15" parent="2" name="heap">
@@ -1552,83 +1551,77 @@ sequence|table|16594|16529|5
       <StateNumber>782</StateNumber>
       <DataType>bigint|0s</DataType>
     </sequence>
-    <sequence id="29" parent="14" name="students_id_seq">
-      <ObjectId>16532</ObjectId>
-      <Owner>postgres</Owner>
-      <StateNumber>694</StateNumber>
-      <DataType>bigint|0s</DataType>
-    </sequence>
-    <sequence id="30" parent="14" name="teachers_id_seq">
+    <sequence id="29" parent="14" name="teachers_id_seq">
       <ObjectId>16543</ObjectId>
       <Owner>postgres</Owner>
       <StateNumber>695</StateNumber>
       <DataType>bigint|0s</DataType>
     </sequence>
-    <table id="31" parent="14" name="courses">
+    <table id="30" parent="14" name="courses">
       <ObjectId>16523</ObjectId>
       <Owner>postgres</Owner>
       <StateNumber>696</StateNumber>
     </table>
-    <table id="32" parent="14" name="databasechangeloglock">
+    <table id="31" parent="14" name="databasechangeloglock">
       <ObjectId>16516</ObjectId>
       <Owner>postgres</Owner>
       <StateNumber>668</StateNumber>
     </table>
-    <table id="33" parent="14" name="student_courses">
+    <table id="32" parent="14" name="student_courses">
       <ObjectId>16529</ObjectId>
       <Owner>postgres</Owner>
       <StateNumber>782</StateNumber>
     </table>
-    <table id="34" parent="14" name="students">
+    <table id="33" parent="14" name="students">
       <ObjectId>16534</ObjectId>
       <Owner>postgres</Owner>
       <StateNumber>698</StateNumber>
     </table>
-    <table id="35" parent="14" name="teachers">
+    <table id="34" parent="14" name="teachers">
       <ObjectId>16545</ObjectId>
       <Owner>postgres</Owner>
       <StateNumber>696</StateNumber>
     </table>
-    <column id="36" parent="31" name="id">
+    <column id="35" parent="30" name="id">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>812</StateNumber>
+      <StateNumber>895</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="37" parent="31" name="credit_unit">
+    <column id="36" parent="30" name="credit_unit">
       <Position>2</Position>
       <DataType>integer|0s</DataType>
       <StateNumber>692</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="38" parent="31" name="name">
+    <column id="37" parent="30" name="name">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <StateNumber>692</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="39" parent="31" name="teacherid">
+    <column id="38" parent="30" name="teacherid">
       <Position>4</Position>
       <DataType>bigint|0s</DataType>
       <StateNumber>692</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <index id="40" parent="31" name="courses_pkey">
+    <index id="39" parent="30" name="courses_pkey">
       <ObjectId>16527</ObjectId>
       <StateNumber>692</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <key id="41" parent="31" name="courses_pkey">
+    <key id="40" parent="30" name="courses_pkey">
       <ObjectId>16528</ObjectId>
       <StateNumber>692</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>courses_pkey</UnderlyingIndexName>
     </key>
-    <foreign-key id="42" parent="31" name="courses_teachers_id_fk">
+    <foreign-key id="41" parent="30" name="courses_teachers_id_fk">
       <ObjectId>16575</ObjectId>
       <StateNumber>723</StateNumber>
       <ColNames>teacherid</ColNames>
@@ -1638,61 +1631,61 @@ sequence|table|16594|16529|5
       <RefKeyName>teachers_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="43" parent="32" name="id">
+    <column id="42" parent="31" name="id">
       <Position>1</Position>
       <DataType>integer|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>668</StateNumber>
       <TypeId>23</TypeId>
     </column>
-    <column id="44" parent="32" name="locked">
+    <column id="43" parent="31" name="locked">
       <Position>2</Position>
       <DataType>boolean|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>668</StateNumber>
       <TypeId>16</TypeId>
     </column>
-    <column id="45" parent="32" name="lockgranted">
+    <column id="44" parent="31" name="lockgranted">
       <Position>3</Position>
       <DataType>timestamp|0s</DataType>
       <StateNumber>668</StateNumber>
       <TypeId>1114</TypeId>
     </column>
-    <column id="46" parent="32" name="lockedby">
+    <column id="45" parent="31" name="lockedby">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <StateNumber>668</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <index id="47" parent="32" name="databasechangeloglock_pkey">
+    <index id="46" parent="31" name="databasechangeloglock_pkey">
       <ObjectId>16519</ObjectId>
       <StateNumber>668</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <key id="48" parent="32" name="databasechangeloglock_pkey">
+    <key id="47" parent="31" name="databasechangeloglock_pkey">
       <ObjectId>16520</ObjectId>
       <StateNumber>668</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>databasechangeloglock_pkey</UnderlyingIndexName>
     </key>
-    <column id="49" parent="33" name="studentid">
+    <column id="48" parent="32" name="studentid">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>693</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="50" parent="33" name="courseid">
+    <column id="49" parent="32" name="courseid">
       <Position>2</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>693</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="51" parent="33" name="id">
+    <column id="50" parent="32" name="id">
       <Position>5</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
@@ -1700,26 +1693,26 @@ sequence|table|16594|16529|5
       <DefaultExpression>nextval(&apos;student_courses_id_seq1&apos;::regclass)</DefaultExpression>
       <TypeId>20</TypeId>
     </column>
-    <index id="52" parent="33" name="student_courses_pk">
+    <index id="51" parent="32" name="student_courses_pk">
       <ObjectId>16601</ObjectId>
       <StateNumber>784</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <index id="53" parent="33" name="student_courses_studentid_index">
+    <index id="52" parent="32" name="student_courses_studentid_index">
       <ObjectId>16603</ObjectId>
       <StateNumber>824</StateNumber>
       <ColNames>studentid</ColNames>
     </index>
-    <key id="54" parent="33" name="student_courses_pk">
+    <key id="53" parent="32" name="student_courses_pk">
       <ObjectId>16602</ObjectId>
       <StateNumber>784</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>student_courses_pk</UnderlyingIndexName>
     </key>
-    <foreign-key id="55" parent="33" name="fkf1dugby2a4ogt1gn1mvu6ujob">
+    <foreign-key id="54" parent="32" name="fkf1dugby2a4ogt1gn1mvu6ujob">
       <ObjectId>16564</ObjectId>
       <StateNumber>698</StateNumber>
       <ColNames>studentid</ColNames>
@@ -1729,7 +1722,7 @@ sequence|table|16594|16529|5
       <RefKeyName>students_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="56" parent="33" name="fkm62itueqjtj8h4f763pcw9bc7">
+    <foreign-key id="55" parent="32" name="fkm62itueqjtj8h4f763pcw9bc7">
       <ObjectId>16559</ObjectId>
       <StateNumber>697</StateNumber>
       <ColNames>courseid</ColNames>
@@ -1739,60 +1732,59 @@ sequence|table|16594|16529|5
       <RefKeyName>courses_pkey</RefKeyName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="57" parent="34" name="id">
+    <column id="56" parent="33" name="id">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
-      <StateNumber>694</StateNumber>
-      <DefaultExpression>nextval(&apos;students_id_seq&apos;::regclass)</DefaultExpression>
+      <StateNumber>871</StateNumber>
       <TypeId>20</TypeId>
     </column>
-    <column id="58" parent="34" name="date_of_birth">
+    <column id="57" parent="33" name="date_of_birth">
       <Position>2</Position>
       <DataType>date|0s</DataType>
       <StateNumber>694</StateNumber>
       <TypeId>1082</TypeId>
     </column>
-    <column id="59" parent="34" name="first_name">
+    <column id="58" parent="33" name="first_name">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <StateNumber>694</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="60" parent="34" name="last_name">
+    <column id="59" parent="33" name="last_name">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <StateNumber>694</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="61" parent="34" name="photo">
+    <column id="60" parent="33" name="photo">
       <Position>5</Position>
       <DataType>bytea|0s</DataType>
       <StateNumber>694</StateNumber>
       <TypeId>17</TypeId>
     </column>
-    <column id="62" parent="34" name="sex">
+    <column id="61" parent="33" name="sex">
       <Position>6</Position>
       <DataType>char|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>694</StateNumber>
       <TypeId>1042</TypeId>
     </column>
-    <index id="63" parent="34" name="students_pkey">
+    <index id="62" parent="33" name="students_pkey">
       <ObjectId>16541</ObjectId>
       <StateNumber>694</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <key id="64" parent="34" name="students_pkey">
+    <key id="63" parent="33" name="students_pkey">
       <ObjectId>16542</ObjectId>
       <StateNumber>694</StateNumber>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>students_pkey</UnderlyingIndexName>
     </key>
-    <column id="65" parent="35" name="id">
+    <column id="64" parent="34" name="id">
       <Position>1</Position>
       <DataType>bigint|0s</DataType>
       <NotNull>1</NotNull>
@@ -1800,45 +1792,45 @@ sequence|table|16594|16529|5
       <DefaultExpression>nextval(&apos;teachers_id_seq&apos;::regclass)</DefaultExpression>
       <TypeId>20</TypeId>
     </column>
-    <column id="66" parent="35" name="date_of_birth">
+    <column id="65" parent="34" name="date_of_birth">
       <Position>2</Position>
       <DataType>date|0s</DataType>
       <StateNumber>695</StateNumber>
       <TypeId>1082</TypeId>
     </column>
-    <column id="67" parent="35" name="first_name">
+    <column id="66" parent="34" name="first_name">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <StateNumber>695</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="68" parent="35" name="last_name">
+    <column id="67" parent="34" name="last_name">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <StateNumber>695</StateNumber>
       <TypeId>1043</TypeId>
     </column>
-    <column id="69" parent="35" name="photo">
+    <column id="68" parent="34" name="photo">
       <Position>5</Position>
       <DataType>bytea|0s</DataType>
       <StateNumber>695</StateNumber>
       <TypeId>17</TypeId>
     </column>
-    <column id="70" parent="35" name="sex">
+    <column id="69" parent="34" name="sex">
       <Position>6</Position>
       <DataType>char|0s</DataType>
       <NotNull>1</NotNull>
       <StateNumber>695</StateNumber>
       <TypeId>1042</TypeId>
     </column>
-    <index id="71" parent="35" name="teachers_pkey">
+    <index id="70" parent="34" name="teachers_pkey">
       <ObjectId>16552</ObjectId>
       <StateNumber>695</StateNumber>
       <ColNames>id</ColNames>
       <Unique>1</Unique>
       <Primary>1</Primary>
     </index>
-    <key id="72" parent="35" name="teachers_pkey">
+    <key id="71" parent="34" name="teachers_pkey">
       <ObjectId>16553</ObjectId>
       <StateNumber>695</StateNumber>
       <ColNames>id</ColNames>

@@ -20,7 +20,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1/assigncoursetostudent")
+@RequestMapping("/api/v1")
 public class AssignCourseToStudentController {
     @Autowired
     private AssignCourseToStudentRepository assignCourseToStudentRepository;
@@ -30,6 +30,7 @@ public class AssignCourseToStudentController {
     private CourseRepository courseRepository;
 
     @PostMapping
+    @RequestMapping("{courseId}/assignTostudent/{studentId}")
     public ResponseEntity create(@RequestBody final AssignCourseToStudent assignCourseToStudent) {
         Long studentIdFromWeb = assignCourseToStudent.getStudentid();
         Long courseIdFromWeb = assignCourseToStudent.getCourseid();

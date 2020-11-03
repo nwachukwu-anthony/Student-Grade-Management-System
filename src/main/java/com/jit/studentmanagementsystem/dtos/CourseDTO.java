@@ -1,6 +1,7 @@
 package com.jit.studentmanagementsystem.dtos;
 
 import com.jit.studentmanagementsystem.models.Student;
+import com.jit.studentmanagementsystem.models.Teacher;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,6 @@ public class CourseDTO {
     private Long id;
     private String name;
     private Integer creditUnit;
-    private Map<String, String> teacher;
-    private List<Map<String, String>> enrolledStudents;
+    private TeacherDTO teacher;
+    private List<StudentDTO> enrolledStudents;
 }

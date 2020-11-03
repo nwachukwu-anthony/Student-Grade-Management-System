@@ -31,7 +31,7 @@ public class StudentController {
     private StudentService studentService;
 
     @GetMapping
-    @ResponseBody
+    //@ResponseBody
     public List<StudentDTO> list() {
         return studentService.getAllStudentsService();
     }

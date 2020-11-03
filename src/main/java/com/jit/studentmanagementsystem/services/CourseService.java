@@ -1,25 +1,21 @@
 package com.jit.studentmanagementsystem.services;
 
 import com.jit.studentmanagementsystem.dtos.CourseDTO;
+import com.jit.studentmanagementsystem.dtos.StudentDTO;
+import com.jit.studentmanagementsystem.dtos.TeacherDTO;
 import com.jit.studentmanagementsystem.models.AssignCourseToStudent;
 import com.jit.studentmanagementsystem.models.Course;
+import com.jit.studentmanagementsystem.models.Student;
 import com.jit.studentmanagementsystem.models.Teacher;
 import com.jit.studentmanagementsystem.repositories.AssignCourseToStudentRepository;
 import com.jit.studentmanagementsystem.repositories.CourseRepository;
 import com.jit.studentmanagementsystem.repositories.TeacherRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.lang.reflect.Field;
-import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -29,6 +25,8 @@ public class CourseService {
     private CourseRepository courseRepository;
     @Autowired
     private AssignCourseToStudentRepository assignCourseToStudentRepository;
+    @Autowired
+    private TeacherRepository teacherRepository;
 
     public List<CourseDTO> getAllCourseService() {
         return courseRepository
@@ -39,11 +37,13 @@ public class CourseService {
     }
 
     public CourseDTO getOneCourseService(Long id) {
-        return courseToCourseDTO(courseRepository
-                .getOne(id));
+        Optional<Course> existingCourse = courseRepository.findById(id);
+        return existingCourse.isPresent()
+                ? courseToCourseDTO(courseRepository.getOne(id))
+                : null;
     }
 
-    public ResponseEntity deleteService(Long id) {
+    public boolean deleteService(Long id) {
         Optional<Course> existingCourse = courseRepository.findById(id);
         boolean existingStudentCourse = assignCourseToStudentRepository
                 .findAll()
@@ -54,56 +54,81 @@ public class CourseService {
 
         if (!existingStudentCourse && existingCourse.isPresent()) {
             courseRepository.deleteById(id);
-            return ResponseEntity.ok("success");
+            return true;
         }
-        return ResponseEntity.badRequest().body("Course Assigned to a student or Course doesn't exist");
+        return false;
     }
 
-    public ResponseEntity createService(final Course course) {
+    public int createService(final Course course) {
         Optional<Course> existingCourse = courseRepository.findById(course.getId());
         if (existingCourse.isPresent()) {
-            return ResponseEntity.badRequest().body("Course with id=" + course.getId() + " exists");
+            return 1;
+        } else if (course.getTeacher() != null && teacherRepository.findById(course.getTeacher().getId()).isEmpty()) {
+            return 2;
+        } else {
+            courseRepository.saveAndFlush(course);
+            return 3;
         }
-        return ResponseEntity.ok(courseRepository.saveAndFlush(course));
     }
 
-    public ResponseEntity updateService(Long id, Course course) {
-        Optional<Course> existingCourse = courseRepository.findById(id);
-        if (existingCourse.isPresent()) {
-            BeanUtils.copyProperties(course, existingCourse, "id");
-            return ResponseEntity.ok(courseRepository.saveAndFlush(course));
+    public int updateService(Long id, Course course) {
+        Optional<Course> existingCourseO = courseRepository.findById(id);
+        if (existingCourseO.isPresent()) {
+            var existingCourse = existingCourseO.get();
+            if (course.getTeacher() != null && teacherRepository.findById(course.getTeacher().getId()).isPresent()) {
+                existingCourse.setTeacher(course.getTeacher());
+            } else {
+                return 2;
+            }
+            if (course.getName() != null) {
+                existingCourse.setName(course.getName());
+            }
+            if (course.getCreditUnit() != null) {
+                existingCourse.setCreditUnit(course.getCreditUnit());
+            }
+            courseRepository.saveAndFlush(existingCourse);
+            return 1;
         }
-        return ResponseEntity.badRequest().body(Map.of("msg", "entity not found"));
-    }
+        return 3;
 
+    }
 
     private CourseDTO courseToCourseDTO(Course course) {
         CourseDTO courseDTO = new CourseDTO();
-        courseDTO.setId(course.getId());
-        courseDTO.setName(course.getName() != null ? course.getName() : "noData");
-        courseDTO.setCreditUnit(course.getCreditUnit() != null ? course.getCreditUnit() : -1);
 
-        Teacher teacher = course.getTeacher();
-        courseDTO.setTeacher(teacher == null
-                ? courseDTO.getTeacher()
-                : Map.of(
-                "id", teacher.getId().toString(),
-                "surName", teacher.getLastName() != null ? teacher.getLastName() : "noData",
-                "firstName ", teacher.getFirstName() != null ? teacher.getFirstName() : "noData",
-                "sex", teacher.getSex() != null ? teacher.getSex() : "noData"));
+        courseDTO.setTeacher(teacherToTeacherDTO(course));
 
-        List<Map<String, String>> student = course.getStudents() != null
+        List<StudentDTO> student = course.getStudents() != null
                 ? course.getStudents().stream()
-                .map(x -> Map.of(
-                        "id", x.getId().toString(),
-                        "firstName", x.getFirstName() != null ? x.getFirstName() : "noData",
-                        "lastName", x.getLastName() != null ? x.getLastName() : "noData",
-                        "sex", x.getSex() != null ? x.getSex() : "noData",
-                        "Age", x.getDateOfBirth() != null ? Integer.toString(x.getDateOfBirth().until(LocalDate.now()).getYears()) : "noData"))
+                .map(this::studentToStudentDTO)
                 .collect(Collectors.toList())
                 : courseDTO.getEnrolledStudents();
         courseDTO.setEnrolledStudents(student);
 
+        BeanUtils.copyProperties(course, courseDTO);
+
         return courseDTO;
+    }
+
+    private TeacherDTO teacherToTeacherDTO(Course course) {
+        TeacherDTO courseDTOTeacher = new TeacherDTO();
+        Teacher teacher = course.getTeacher();
+
+        if (teacher != null) {
+            BeanUtils.copyProperties(teacher, courseDTOTeacher);
+        }
+        return courseDTOTeacher;
+    }
+
+    private StudentDTO studentToStudentDTO(Student student) {
+        StudentDTO studentDTO = new StudentDTO();
+
+        if (student != null) {
+            if (student.getDateOfBirth() != null) {
+                studentDTO.setAge(student.getDateOfBirth().until(LocalDate.now()).getYears());
+            }
+            BeanUtils.copyProperties(student, studentDTO);
+        }
+        return studentDTO;
     }
 }

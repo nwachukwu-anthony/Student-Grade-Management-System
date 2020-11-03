@@ -16,6 +16,6 @@ public class StudentDTO {
     private String lastName;
     private String sex;
     private Integer age;
-    private byte[] photo;
-    private List<Map<String, String>> courses;
+//    private byte[] photo;
+//    private List<Map<String, String>> courses;
 }

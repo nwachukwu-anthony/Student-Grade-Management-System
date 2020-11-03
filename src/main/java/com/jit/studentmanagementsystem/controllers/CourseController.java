@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/courses")
@@ -24,29 +25,48 @@ public class CourseController {
     private CourseService courseService;
 
     @GetMapping
-    @ResponseBody
+    //@ResponseBody
     public List<CourseDTO> getAllCourse() {
         return courseService.getAllCourseService();
     }
 
     @GetMapping
     @RequestMapping("{id}")
-    public CourseDTO get(@PathVariable Long id) {
-        return courseService.getOneCourseService(id);
+    public ResponseEntity get(@PathVariable Long id) {
+        CourseDTO response = courseService.getOneCourseService(id);
+        return response != null
+                ? ResponseEntity.ok(response)
+                : ResponseEntity.badRequest().body(Map.of("msg", "No course with id=" + id + "."));
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public ResponseEntity delete(@PathVariable Long id) {
-        return courseService.deleteService(id);
+        return courseService.deleteService(id)
+                ? ResponseEntity.ok(Map.of("msg", "success"))
+                : ResponseEntity.badRequest().body(Map.of("msg", "Course Assigned to a student or Course doesn't exist"));
     }
 
     @PostMapping
     public ResponseEntity create(@RequestBody final Course course) {
-        return courseService.createService(course);
+        int response = courseService.createService(course);
+        if (response == 1) {
+            return ResponseEntity.badRequest().body(Map.of("msg", "Course with id=" + course.getId() + " exists"));
+        } else if (response == 2) {
+            return ResponseEntity.badRequest().body(Map.of("msg", "Teacher with id=" + course.getTeacher().getId() + " doesn't exists"));
+        } else {
+            return ResponseEntity.ok(Map.of("msg", "success!!!"));
+        }
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     public ResponseEntity update(@PathVariable Long id, @RequestBody Course course) {
-        return courseService.updateService(id, course);
+        int response = courseService.updateService(id, course);
+        if (response == 3) {
+            return ResponseEntity.badRequest().body(Map.of("msg", "Course with id=" + id + " doesn't exists."));
+        } else if (response == 2) {
+            return ResponseEntity.badRequest().body(Map.of("msg", "Teacher with id=" + course.getTeacher().getId() + " doesn't exists"));
+        } else {
+            return ResponseEntity.ok(Map.of("msg", "success!!!"));
+        }
     }
 }
