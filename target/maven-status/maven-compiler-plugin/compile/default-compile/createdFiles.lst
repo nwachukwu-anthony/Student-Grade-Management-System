@@ -1,0 +1,10 @@
+com\jit\studentmanagementsystem\models\Student.class
+com\jit\studentmanagementsystem\models\Course.class
+com\jit\studentmanagementsystem\models\Teacher.class
+com\jit\studentmanagementsystem\repositories\TeacherRepository.class
+com\jit\studentmanagementsystem\controllers\TeacherController.class
+com\jit\studentmanagementsystem\StudentManagementSystemApplication.class
+com\jit\studentmanagementsystem\controllers\StudentController.class
+com\jit\studentmanagementsystem\repositories\CourseRepository.class
+com\jit\studentmanagementsystem\repositories\StudentRepository.class
+com\jit\studentmanagementsystem\controllers\CourseController.class
